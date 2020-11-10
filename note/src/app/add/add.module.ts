@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { AddPageRoutingModule } from './add-routing.module';
 
 import { AddPage } from './add.page';
+import { Autosize } from '../shared/autosize.directive';
 
 @NgModule({
   imports: [
@@ -15,6 +16,6 @@ import { AddPage } from './add.page';
     IonicModule,
     AddPageRoutingModule
   ],
-  declarations: [AddPage]
+  declarations: [AddPage, Autosize]
 })
 export class AddPageModule {}

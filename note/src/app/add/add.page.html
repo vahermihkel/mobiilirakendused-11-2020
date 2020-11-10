@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-icon
         *ngIf="!isSaved"
-        (click)="onSave()"
+        (click)="onSave(currentNote)"
         name="checkmark"
         color="success"
         slot="end"
@@ -17,15 +17,24 @@
 </ion-header>
 
 <ion-content>
-  <ion-textarea
-    rows="1"
-    (click)="onClickInput()"
-    class="header-input"
-    placeholder="Add header"
-  ></ion-textarea>
-  <ion-input
-    (click)="onClickInput()"
-    class="text-input"
-    placeholder="Add content"
-  ></ion-input>
+  <form #currentNote="ngForm">
+    <ion-textarea
+      rows="1"
+      (input)="onChangeInput()"
+      class="header-input"
+      placeholder="Add header"
+      maxlength="80"
+      ngModel
+      name="header"
+    ></ion-textarea>
+
+    <ion-textarea
+      (input)="onChangeInput()"
+      class="text-input"
+      placeholder="Add text here"
+      autosize
+      ngModel
+      name="text"
+    ></ion-textarea>
+  </form>
 </ion-content>

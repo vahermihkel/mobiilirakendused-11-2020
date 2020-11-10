@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-add',
@@ -7,19 +8,32 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddPage implements OnInit {
   isSaved = true;
+  newNote: {header: string, text: string};
+  isNew = true;
 
   constructor() { }
 
   ngOnInit() {
   }
 
-  onClickInput() {
-    this.isSaved = false;
+  onChangeInput() {
+    setTimeout(() => {this.isSaved = false}, 500);
   }
 
-  onSave() {
+  onSave(form: NgForm) {
+    this.newNote = form.value;
     this.isSaved = true;
-  }
+    let notes = JSON.parse(localStorage.getItem("notes")) || [];
 
+    if (this.isNew) {
+      notes.push(this.newNote);
+      this.isNew = false;
+    } else {
+      notes[notes.length-1] = this.newNote;
+    }
+
+    localStorage.setItem("notes", JSON.stringify(notes));
+  }
 
 }
+
