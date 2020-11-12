@@ -22,6 +22,7 @@ export class AddPage implements OnInit {
 
   onSave(form: NgForm) {
     this.newNote = form.value;
+    this.newNote["date"] = new Date();
     this.isSaved = true;
     let notes = JSON.parse(localStorage.getItem("notes")) || [];
 
