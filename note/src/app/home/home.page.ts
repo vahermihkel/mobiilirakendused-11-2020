@@ -37,7 +37,10 @@ export class HomePage {
     let lastWeek = new Date();
     lastWeek.setDate(dateToday.getDate() - 7);
 
+    let i = 0;
     this.notes.forEach((note) => {
+      note.id = i;
+      i++;
       if (note.date) {
         let noteDate = new Date(note.date);
         let noteDay = noteDate.getDate();
@@ -48,7 +51,15 @@ export class HomePage {
           todayMonth == noteMonth &&
           todayYear == noteYear
         ) {
-          note.dateShown = noteDate.getHours() + ":" + noteDate.getMinutes();
+          let minutes;
+          if (noteDate.getMinutes() > 10) {
+            minutes = noteDate.getMinutes();
+          } else if (noteDate.getMinutes() == 0) {
+            minutes = "00";
+          } else {
+            minutes = "0" + noteDate.getMinutes();
+          }
+          note.dateShown = noteDate.getHours() + ":" + minutes;
         } else if (
           yesterday.getDate() == noteDay &&
           yesterday.getMonth() + 1 == noteMonth &&

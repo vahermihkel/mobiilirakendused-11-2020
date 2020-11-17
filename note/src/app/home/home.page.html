@@ -11,7 +11,7 @@
       Kuu
     </ion-list-header>
 
-    <ion-item *ngFor="let note of notes">
+    <ion-item [routerLink]="['/add', note.id]" *ngFor="let note of notes">
       <ion-avatar slot="start" *ngIf="note.picture">
         <img src="./avatar-finn.png">
       </ion-avatar>
