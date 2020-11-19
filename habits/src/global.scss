@@ -24,3 +24,46 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+// .alert-input-group.sc-ion-alert-md {
+//     display: flex !important;
+//     justify-content: flex-start;
+// }
+
+.nameInput {
+    position: relative;
+    top: -20px;
+}
+
+.repeatText {
+    border-bottom: none !important;
+}
+
+.repeatInput {
+    width: 20px !important;
+    border-bottom: none !important;
+    position: absolute;
+    bottom: 100px;
+    left: 73px;
+    text-align: center;
+}
+
+.timeframeInput {
+    width: 20px !important;
+    border-bottom: none !important;
+    position: absolute;
+    bottom: 100px;
+    left: 162px;
+    text-align: center;
+}
+
+
+
+// .alert-message.sc-ion-alert-md {
+//     position: absolute;
+//     top: 120px;
+// }
+
+.alert-input-group.sc-ion-alert-md {
+    margin-top: 0 !important;
+}

@@ -13,6 +13,10 @@
 
 <ion-content [fullscreen]="true">
  
-
+  <ion-list>
+    <ion-item (click)="onEditHabit(id)" *ngFor="let habit of habits; let id = index">
+      <ion-label>{{ habit.name }}</ion-label>
+    </ion-item>
+  </ion-list>
   
 </ion-content>
