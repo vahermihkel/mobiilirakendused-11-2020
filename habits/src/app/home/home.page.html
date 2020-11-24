@@ -4,6 +4,9 @@
       Habits
     </ion-title>
     <ion-buttons slot="end">
+      <ion-button *ngIf="showRemoveButton" (click)="onRemoveHabit()">
+        <ion-icon name="trash-outline"></ion-icon>
+      </ion-button>
       <ion-button (click)="onAddHabit()">
         <ion-icon name="add-circle"></ion-icon>
       </ion-button>
@@ -13,8 +16,10 @@
 
 <ion-content [fullscreen]="true">
  
+{{counter}}
+
   <ion-list>
-    <ion-item (click)="onEditHabit(id)" *ngFor="let habit of habits; let id = index">
+    <ion-item (touchstart)="pressEvent()" (touchend)="pressEvent()" (click)="onEditHabit(id)" *ngFor="let habit of habits; let id = index">
       <ion-label>{{ habit.name }}</ion-label>
     </ion-item>
   </ion-list>
