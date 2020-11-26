@@ -1,8 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Habits
-    </ion-title>
+    <ion-title> Habits </ion-title>
     <ion-buttons slot="end">
       <ion-button *ngIf="showRemoveButton" (click)="onRemoveHabit()">
         <ion-icon name="trash-outline"></ion-icon>
@@ -15,13 +13,57 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
- 
-{{counter}}
+  <!-- {{counter}} -->
 
-  <ion-list>
-    <ion-item (touchstart)="pressEvent()" (touchend)="pressEvent()" (click)="onEditHabit(id)" *ngFor="let habit of habits; let id = index">
-      <ion-label>{{ habit.name }}</ion-label>
-    </ion-item>
-  </ion-list>
-  
+  <ion-grid class="ion-no-padding">
+    <ion-row class="first-row">
+      <ion-col size="6">
+      </ion-col>
+      <ion-col>
+        <div>{{ date | previousDate:4 | date:'E' }}</div>
+        <div>{{ date | previousDate:4 | date:'dd' }}</div>
+      </ion-col>
+      <ion-col>
+        <div>{{ date | previousDate:3 | date:'E' }}</div>
+        <div>{{ date | previousDate:3 | date:'dd' }}</div>
+      </ion-col>
+      <ion-col>
+        <div>{{ date | previousDate:2 | date:'E' }}</div>
+        <div>{{ date | previousDate:2 | date:'dd' }}</div>
+      </ion-col>
+      <ion-col>
+        <div>{{ date | previousDate:1 | date:'E' }}</div>
+        <div>{{ date | previousDate:1 | date:'dd' }}</div>
+      </ion-col>
+      <ion-col>
+        <div>{{ date | date:'E' }}</div>
+        <div>{{ date | date:'dd' }}</div>
+      </ion-col>
+    </ion-row>
+    <ion-row
+      (touchstart)="pressEvent()"
+      (touchend)="pressEvent()"
+      *ngFor="let habit of habits; let id = index"
+    >
+      <ion-col size="6">
+        <ion-label (click)="onEditHabit(id)">{{ habit.name }}</ion-label>
+      </ion-col>
+      <ion-col>
+          <ion-icon *ngIf="!habit.showFirst" (click)="onHabitDone(4, id)" name="close-sharp"></ion-icon>
+          <ion-icon *ngIf="habit.showFirst" (click)="onHabitUndone(4, id)" name="checkmark-sharp"></ion-icon>
+      </ion-col>
+      <ion-col>
+        <ion-icon (click)="onHabitDone(3, id)" name="checkmark-sharp"></ion-icon>
+      </ion-col>
+      <ion-col>
+        <ion-icon (click)="onHabitDone(2, id)" name="close-sharp"></ion-icon>
+      </ion-col>
+      <ion-col>
+        <ion-icon (click)="onHabitDone(1, id)" name="close-sharp"></ion-icon>
+      </ion-col>
+      <ion-col>
+        <ion-icon (click)="onHabitDone(0, id)" name="checkmark-sharp"></ion-icon>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
