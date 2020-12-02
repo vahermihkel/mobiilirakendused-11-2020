@@ -6,6 +6,7 @@ import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
 import { PreviousDatePipe } from './previous-date.pipe';
+import { OnCreateDirective } from './on-create.directive';
 
 
 @NgModule({
@@ -15,6 +16,6 @@ import { PreviousDatePipe } from './previous-date.pipe';
     IonicModule,
     HomePageRoutingModule
   ],
-  declarations: [HomePage, PreviousDatePipe]
+  declarations: [HomePage, PreviousDatePipe, OnCreateDirective]
 })
 export class HomePageModule {}

@@ -1,9 +1,8 @@
-import { DatePipe } from '@angular/common';
+import { DatePipe } from "@angular/common";
 import { Component } from "@angular/core";
 import { AlertController } from "@ionic/angular";
-import { Subject } from 'rxjs';
-import { PreviousDatePipe } from './previous-date.pipe';
-
+import { Subject } from "rxjs";
+import { PreviousDatePipe } from "./previous-date.pipe";
 
 @Component({
   selector: "app-home",
@@ -15,6 +14,8 @@ export class HomePage {
   habitId;
   showRemoveButton = false;
   date;
+  previousDatePipe = new PreviousDatePipe();
+  datePipe = new DatePipe("en-US");
 
   counter = 0;
 
@@ -23,38 +24,96 @@ export class HomePage {
   ionViewDidEnter() {
     this.date = new Date();
     this.habits = JSON.parse(localStorage.getItem("habits")) || [];
-    this.checkLastDatesDone();
+    // this.checkLastDatesDone();
   }
 
-  checkLastDatesDone() {
-    this.habits.forEach(habit => {
-      habit.datesDone.forEach(dateDone => {
-        const previousDatePipe = new PreviousDatePipe();
-        const datePipe = new DatePipe('en-US');
-        habit.showFirst = false;
-        if (datePipe.transform(dateDone, 'shortDate') == datePipe.transform(this.date, 'shortDate')) {
-          habit.showFirst = true;
-          return;
-        } 
-      });
-    })
+  // checkLastDatesDone() {
+  //   this.habits.forEach(habit => {
+  //     habit.datesDone.forEach(dateDone => {
+  //       const previousDatePipe = new PreviousDatePipe();
+  //       const datePipe = new DatePipe('en-US');
+  //       habit.showFirst = false;
+  //       if (datePipe.transform(dateDone, 'shortDate') == datePipe.transform(this.date, 'shortDate')) {
+  //         // habit.showFirst = true;
+  //         // return;
+  //       }
+  //     });
+  //   })
+  // }
+
+  checkLastDatesDone(index) {
+    let habitShow = this.habits[index].show;
+
+    this.habits[index].datesDone.forEach((dateDone) => {
+      if (
+        this.datePipe.transform(dateDone, "shortDate") ==
+        this.datePipe.transform(this.date, "shortDate")
+      ) {
+        habitShow[0] = true;
+      } else if (
+        this.datePipe.transform(dateDone, "shortDate") ==
+        this.datePipe.transform(
+          this.previousDatePipe.transform(this.date, 1),
+          "shortDate"
+        )
+      ) {
+        habitShow[1] = true;
+      } else if (
+        this.datePipe.transform(dateDone, "shortDate") ==
+        this.datePipe.transform(
+          this.previousDatePipe.transform(this.date, 2),
+          "shortDate"
+        )
+      ) {
+        habitShow[2] = true;
+      } else if (
+        this.datePipe.transform(dateDone, "shortDate") ==
+        this.datePipe.transform(
+          this.previousDatePipe.transform(this.date, 3),
+          "shortDate"
+        )
+      ) {
+        habitShow[3] = true;
+      } else if (
+        this.datePipe.transform(dateDone, "shortDate") ==
+        this.datePipe.transform(
+          this.previousDatePipe.transform(this.date, 4),
+          "shortDate"
+        )
+      ) {
+        habitShow[4] = true;
+      }
+    });
   }
 
   pressEvent() {
     this.counter++;
   }
 
-  onHabitDone(daysAgo: number, id: number) {
-    let dateDone = new Date();
-    dateDone.setDate(dateDone.getDate() - daysAgo);
-    this.habits[id].datesDone.push(dateDone);
+  onHabitCheck(daysAgo: number, id: number, isDone: boolean) {
+    let habit = this.habits[id];
+    if (isDone) {
+      this.habits[id].show[daysAgo] = false;
+      for (let i = habit.datesDone.length - 1;i >= habit.datesDone.length - 5;i--) {
+        if ( this.datePipe.transform(habit.datesDone[i], "shortDate") ==
+          this.datePipe.transform(this.previousDatePipe.transform(this.date, daysAgo),"shortDate")) {
+            habit.datesDone.splice(i,1);
+        }
+      }
+    } else {
+      let dateDone = new Date();
+      dateDone.setDate(dateDone.getDate() - daysAgo);
+      habit.datesDone.push(dateDone);
+      this.checkLastDatesDone(id);
+    }
+
     localStorage.setItem("habits", JSON.stringify(this.habits));
   }
 
   onRemoveHabit() {
     this.habits.splice(this.habitId, 1);
     localStorage.setItem("habits", JSON.stringify(this.habits));
-    this.habitId = null; 
+    this.habitId = null;
   }
 
   onEditHabit(id) {
@@ -90,7 +149,7 @@ export class HomePage {
           type: "text",
           placeholder: "Name of habit",
           cssClass: "nameInput alertInput",
-          value: currentHabit.name
+          value: currentHabit.name,
         },
         {
           name: "repeatText",
@@ -106,14 +165,14 @@ export class HomePage {
           id: "code2",
           type: "number",
           cssClass: "repeatInput alertInput",
-          value: currentHabit.repeatTimes
+          value: currentHabit.repeatTimes,
         },
         {
           name: "timeframe",
           id: "code3",
           type: "number",
           cssClass: "timeframeInput alertInput",
-          value: currentHabit.timeframe
+          value: currentHabit.timeframe,
         },
       ],
       buttons: [
@@ -137,23 +196,22 @@ export class HomePage {
               datesDone: [],
             };
             if (this.habitId == null) {
+              newHabit["show"] = Array(5).fill(false);
               this.habits.push(newHabit);
             } else {
               this.habits[this.habitId] = newHabit;
               this.habitId = null;
             }
-            localStorage.setItem("habits", JSON.stringify(this.habits)); 
+            localStorage.setItem("habits", JSON.stringify(this.habits));
           },
         },
       ],
-
-      
     });
 
     await alert.present();
 
-    const confirmBtn = document.querySelector('.confirm') as HTMLButtonElement;
-   
+    const confirmBtn = document.querySelector(".confirm") as HTMLButtonElement;
+
     if (this.habitId == null) {
       confirmBtn.disabled = true;
       confirmBtn.classList.add("disabled");
@@ -163,15 +221,17 @@ export class HomePage {
     }
 
     const code$ = new Subject();
-    const codeInput = document.getElementsByClassName('alertInput') as HTMLCollectionOf<HTMLInputElement>;
+    const codeInput = document.getElementsByClassName(
+      "alertInput"
+    ) as HTMLCollectionOf<HTMLInputElement>;
     const alertInputs = Array.from(codeInput);
-    alertInputs.forEach(element => {
-      element.addEventListener('keyup', () => code$.next(alertInputs));
+    alertInputs.forEach((element) => {
+      element.addEventListener("keyup", () => code$.next(alertInputs));
     });
     code$.asObservable().subscribe((alertInputs: HTMLInputElement[]) => {
       let buttonDisabled = false;
       confirmBtn.classList.remove("disabled");
-      alertInputs.forEach(element => {
+      alertInputs.forEach((element) => {
         if (element.value == "") {
           buttonDisabled = true;
           confirmBtn.classList.add("disabled");
@@ -217,9 +277,5 @@ export class HomePage {
     //   codeThreeDisabled = (code == '');
     //   confirmBtn.disabled = (codeOneDisabled || codeTwoDisabled || codeThreeDisabled);
     // });
-  
-    
   }
-
-
 }
