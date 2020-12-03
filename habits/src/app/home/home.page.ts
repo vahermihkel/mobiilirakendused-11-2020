@@ -24,64 +24,16 @@ export class HomePage {
   ionViewDidEnter() {
     this.date = new Date();
     this.habits = JSON.parse(localStorage.getItem("habits")) || [];
-    // this.checkLastDatesDone();
   }
-
-  // checkLastDatesDone() {
-  //   this.habits.forEach(habit => {
-  //     habit.datesDone.forEach(dateDone => {
-  //       const previousDatePipe = new PreviousDatePipe();
-  //       const datePipe = new DatePipe('en-US');
-  //       habit.showFirst = false;
-  //       if (datePipe.transform(dateDone, 'shortDate') == datePipe.transform(this.date, 'shortDate')) {
-  //         // habit.showFirst = true;
-  //         // return;
-  //       }
-  //     });
-  //   })
-  // }
 
   checkLastDatesDone(index) {
     let habitShow = this.habits[index].show;
-
     this.habits[index].datesDone.forEach((dateDone) => {
-      if (
-        this.datePipe.transform(dateDone, "shortDate") ==
-        this.datePipe.transform(this.date, "shortDate")
-      ) {
-        habitShow[0] = true;
-      } else if (
-        this.datePipe.transform(dateDone, "shortDate") ==
-        this.datePipe.transform(
-          this.previousDatePipe.transform(this.date, 1),
-          "shortDate"
-        )
-      ) {
-        habitShow[1] = true;
-      } else if (
-        this.datePipe.transform(dateDone, "shortDate") ==
-        this.datePipe.transform(
-          this.previousDatePipe.transform(this.date, 2),
-          "shortDate"
-        )
-      ) {
-        habitShow[2] = true;
-      } else if (
-        this.datePipe.transform(dateDone, "shortDate") ==
-        this.datePipe.transform(
-          this.previousDatePipe.transform(this.date, 3),
-          "shortDate"
-        )
-      ) {
-        habitShow[3] = true;
-      } else if (
-        this.datePipe.transform(dateDone, "shortDate") ==
-        this.datePipe.transform(
-          this.previousDatePipe.transform(this.date, 4),
-          "shortDate"
-        )
-      ) {
-        habitShow[4] = true;
+      for (let i = 0; i < 5; i++) {
+        if (this.datePipe.transform(dateDone, "shortDate") ==
+        this.datePipe.transform(this.previousDatePipe.transform(this.date, i),"shortDate")) {
+          habitShow[4 - i] = true;
+        }
       }
     });
   }
@@ -93,7 +45,8 @@ export class HomePage {
   onHabitCheck(daysAgo: number, id: number, isDone: boolean) {
     let habit = this.habits[id];
     if (isDone) {
-      this.habits[id].show[daysAgo] = false;
+      habit.show[daysAgo] = false;
+      daysAgo = 4 - daysAgo;
       for (let i = habit.datesDone.length - 1;i >= habit.datesDone.length - 5;i--) {
         if ( this.datePipe.transform(habit.datesDone[i], "shortDate") ==
           this.datePipe.transform(this.previousDatePipe.transform(this.date, daysAgo),"shortDate")) {
@@ -101,6 +54,7 @@ export class HomePage {
         }
       }
     } else {
+      daysAgo = 4 - daysAgo;
       let dateDone = new Date();
       dateDone.setDate(dateDone.getDate() - daysAgo);
       habit.datesDone.push(dateDone);
@@ -176,6 +130,13 @@ export class HomePage {
         },
       ],
       buttons: [
+        {
+          text: "Color",
+          cssClass: "secondary",
+          handler: () => {
+            this.changeColorAlert();
+          },
+        },
         {
           text: "Cancel",
           role: "cancel",
@@ -278,4 +239,61 @@ export class HomePage {
     //   confirmBtn.disabled = (codeOneDisabled || codeTwoDisabled || codeThreeDisabled);
     // });
   }
+
+  async changeColorAlert() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Radio',
+      inputs: [
+        {
+          name: 'radio1',
+          type: 'radio',
+          label: 'Radio 1',
+          value: 'value1',
+          checked: true
+        },
+        {
+          name: 'radio2',
+          type: 'radio',
+          cssClass: 'radio2',
+          value: 'value2'
+        },
+        {
+          name: 'radio3',
+          type: 'radio',
+          label: 'Radio 3',
+          value: 'value3'
+        },
+        {
+          name: 'radio4',
+          type: 'radio',
+          label: 'Radio 4',
+          value: 'value4'
+        },
+        {
+          name: 'radio5',
+          type: 'radio',
+          label: 'Radio 5',
+          value: 'value5'
+        },
+        {
+          name: 'radio6',
+          type: 'radio',
+          label: 'Radio 6 Radio 6 Radio 6 Radio 6 Radio 6 Radio 6 Radio 6 Radio 6 Radio 6 Radio 6 ',
+          value: 'value6'
+        }
+      ],
+      buttons: [
+         {
+          text: 'Ok',
+          handler: () => {
+            console.log('Confirm Ok');
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
 }

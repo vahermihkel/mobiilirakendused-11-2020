@@ -13,7 +13,8 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <!-- {{counter}} -->
+  {{counter}}
+  <img src="../../assets/shapes.svg" alt="">
 
   <ion-grid class="ion-no-padding">
     <ion-row class="first-row">
@@ -33,7 +34,7 @@
         <ion-label (click)="onEditHabit(id)">{{ habit.name }}</ion-label>
       </ion-col>
       <ng-container *ngIf="habit" (onCreate)="checkLastDatesDone(id)">
-        <ion-col *ngFor="let isDone of habit.show" (click)="onHabitCheck(1, id, isDone)">
+        <ion-col *ngFor="let isDone of habit.show; let daysAgo = index" (click)="onHabitCheck(daysAgo, id, isDone)">
             <ion-icon *ngIf="!isDone" name="close-sharp"></ion-icon>
             <ion-icon *ngIf="isDone" name="checkmark-sharp"></ion-icon>
         </ion-col>
