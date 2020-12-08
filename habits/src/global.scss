@@ -27,6 +27,10 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 
+* {
+    outline: none;
+}
+
 // .alert-input-group.sc-ion-alert-md {
 //     display: flex !important;
 //     justify-content: flex-start;
@@ -86,3 +90,17 @@
     height: 20px !important;
     margin-left: 50px !important;
 }
+
+.radio aria-checked {
+    background-color: yellow !important;
+    // background-image: url("./assets/shapes.svg") !important;
+    // background-repeat: no-repeat !important;
+    width: 20px !important;
+    height: 20px !important;
+    margin-left: 50px !important;
+}
+
+ion-scroll {
+    white-space: nowrap;
+    height: 150px
+  }

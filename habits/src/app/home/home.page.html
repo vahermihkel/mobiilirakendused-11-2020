@@ -14,7 +14,6 @@
 
 <ion-content [fullscreen]="true">
   {{counter}}
-  <img src="../../assets/shapes.svg" alt="">
 
   <ion-grid class="ion-no-padding">
     <ion-row class="first-row">
@@ -26,12 +25,12 @@
       </ion-col>
     </ion-row>
     <ion-row
-      (touchstart)="pressEvent()"
-      (touchend)="pressEvent()"
+      (touchstart)="pressEvent('start', id)"
+      (touchend)="pressEvent('end', id)"
       *ngFor="let habit of habits; let id = index"
     >
       <ion-col size="6">
-        <ion-label (click)="onEditHabit(id)">{{ habit.name }}</ion-label>
+        <ion-label [routerLink]="['/detail-view', id]">{{ habit.name }}</ion-label>
       </ion-col>
       <ng-container *ngIf="habit" (onCreate)="checkLastDatesDone(id)">
         <ion-col *ngFor="let isDone of habit.show; let daysAgo = index" (click)="onHabitCheck(daysAgo, id, isDone)">

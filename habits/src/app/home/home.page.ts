@@ -38,8 +38,22 @@ export class HomePage {
     });
   }
 
-  pressEvent() {
-    this.counter++;
+  timeoutHandler;
+
+  pressEvent(when: string, id: number) {
+    if (when == 'start') {
+      this.timeoutHandler = setInterval(() => {
+        this.counter++;
+        if (this.counter > 4) {
+          clearInterval(this.timeoutHandler);
+          this.habitId = id;
+          this.onAddHabit();
+        } 
+      }, 100);
+    } else if (when == 'end') {
+      clearInterval(this.timeoutHandler);
+      this.counter = 0;
+    }
   }
 
   onHabitCheck(daysAgo: number, id: number, isDone: boolean) {
@@ -70,11 +84,6 @@ export class HomePage {
     this.habitId = null;
   }
 
-  onEditHabit(id) {
-    this.habitId = id;
-    this.onAddHabit();
-  }
-
   async onAddHabit() {
     let currentHabit;
     let title;
@@ -90,7 +99,7 @@ export class HomePage {
       currentHabit = {
         name: this.habits[this.habitId].name,
         repeatTimes: this.habits[this.habitId].repeatTimes,
-        timeframe: this.habits[this.habitId].timeframe,
+        timeframe: this.habits[this.habitId].timeframe
       };
     }
     const alert = await this.alertController.create({
@@ -130,13 +139,13 @@ export class HomePage {
         },
       ],
       buttons: [
-        {
-          text: "Color",
-          cssClass: "secondary",
-          handler: () => {
-            this.changeColorAlert();
-          },
-        },
+        // {
+        //   text: "Color",
+        //   cssClass: "secondary",
+        //   handler: () => {
+        //     this.changeColorAlert();
+        //   },
+        // },
         {
           text: "Cancel",
           role: "cancel",
@@ -160,6 +169,7 @@ export class HomePage {
               newHabit["show"] = Array(5).fill(false);
               this.habits.push(newHabit);
             } else {
+              newHabit["show"] =  this.habits[this.habitId].show;
               this.habits[this.habitId] = newHabit;
               this.habitId = null;
             }
@@ -200,100 +210,62 @@ export class HomePage {
       });
       confirmBtn.disabled = buttonDisabled;
     });
-
-    // const confirmBtn = document.querySelector('.confirm') as HTMLButtonElement;
-    // confirmBtn.disabled = true;
-
-    // let codeOneDisabled;
-    // let codeTwoDisabled;
-    //   let codeThreeDisabled;
-    // if (this.habitId == null) {
-    //   codeOneDisabled = true;
-    //   codeTwoDisabled = true;
-    //   codeThreeDisabled = true;
-    // } else {
-    //   confirmBtn.disabled = false;
-    // }
-
-    // const code1$ = new Subject();
-    // const codeInput1 = document.getElementById('code1') as HTMLInputElement;
-    // codeInput1.addEventListener('keyup', () => code1$.next(codeInput1.value));
-    // code1$.asObservable().subscribe(code => {
-    //   codeOneDisabled = (code == '');
-    //   confirmBtn.disabled = (codeOneDisabled || codeTwoDisabled || codeThreeDisabled);
-    // });
-
-    // const code2$ = new Subject();
-    // const codeInput2 = document.getElementById('code2') as HTMLInputElement;
-    // codeInput2.addEventListener('keyup', () => code2$.next(codeInput2.value));
-    // code2$.asObservable().subscribe(code => {
-    //   codeTwoDisabled = (code == '');
-    //   confirmBtn.disabled = (codeOneDisabled || codeTwoDisabled || codeThreeDisabled);
-    // });
-
-    // const code3$ = new Subject();
-    // const codeInput3 = document.getElementById('code3') as HTMLInputElement;
-    // codeInput3.addEventListener('keyup', () => code3$.next(codeInput3.value));
-    // code3$.asObservable().subscribe(code => {
-    //   codeThreeDisabled = (code == '');
-    //   confirmBtn.disabled = (codeOneDisabled || codeTwoDisabled || codeThreeDisabled);
-    // });
   }
 
-  async changeColorAlert() {
-    const alert = await this.alertController.create({
-      cssClass: 'my-custom-class',
-      header: 'Radio',
-      inputs: [
-        {
-          name: 'radio1',
-          type: 'radio',
-          label: 'Radio 1',
-          value: 'value1',
-          checked: true
-        },
-        {
-          name: 'radio2',
-          type: 'radio',
-          cssClass: 'radio2',
-          value: 'value2'
-        },
-        {
-          name: 'radio3',
-          type: 'radio',
-          label: 'Radio 3',
-          value: 'value3'
-        },
-        {
-          name: 'radio4',
-          type: 'radio',
-          label: 'Radio 4',
-          value: 'value4'
-        },
-        {
-          name: 'radio5',
-          type: 'radio',
-          label: 'Radio 5',
-          value: 'value5'
-        },
-        {
-          name: 'radio6',
-          type: 'radio',
-          label: 'Radio 6 Radio 6 Radio 6 Radio 6 Radio 6 Radio 6 Radio 6 Radio 6 Radio 6 Radio 6 ',
-          value: 'value6'
-        }
-      ],
-      buttons: [
-         {
-          text: 'Ok',
-          handler: () => {
-            console.log('Confirm Ok');
-          }
-        }
-      ]
-    });
+  // async changeColorAlert() {
+  //   const alert = await this.alertController.create({
+  //     cssClass: 'my-custom-class',
+  //     header: 'Radio',
+  //     inputs: [
+  //       {
+  //         name: 'radio1',
+  //         type: 'radio',
+  //         label: 'Radio 1',
+  //         value: 'value1',
+  //         checked: true
+  //       },
+  //       {
+  //         name: 'radio2',
+  //         type: 'radio',
+  //         cssClass: 'radio2',
+  //         value: 'value2'
+  //       },
+  //       {
+  //         name: 'radio3',
+  //         type: 'radio',
+  //         label: 'Radio 3',
+  //         value: 'value3'
+  //       },
+  //       {
+  //         name: 'radio4',
+  //         type: 'radio',
+  //         label: 'Radio 4',
+  //         value: 'value4'
+  //       },
+  //       {
+  //         name: 'radio5',
+  //         type: 'radio',
+  //         label: 'Radio 5',
+  //         value: 'value5'
+  //       },
+  //       {
+  //         name: 'radio6',
+  //         type: 'radio',
+  //         label: 'Radio 6 Radio 6 Radio 6 Radio 6 Radio 6 Radio 6 Radio 6 Radio 6 Radio 6 Radio 6 ',
+  //         value: 'value6'
+  //       }
+  //     ],
+  //     buttons: [
+  //        {
+  //         text: 'Ok',
+  //         handler: () => {
+  //           console.log('Confirm Ok');
+  //         }
+  //       }
+  //     ]
+  //   });
 
-    await alert.present();
-  }
+  //   await alert.present();
+  // }
 
 }
