@@ -1,7 +1,8 @@
 {
   "rulesFile": "database.rules.json",
   "hosting": {
-    "public": "public",
+    "site": "mihkelnotes",
+    "public": "www",
     "ignore": [
       "firebase.json",
       "**/.*",

@@ -6,47 +6,54 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-list>
-    <ion-list-header>
-      Kuu
-    </ion-list-header>
+  
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content>
 
-    <ion-item [routerLink]="['/add', note.id]" *ngFor="let note of notes">
-      <ion-avatar slot="start" *ngIf="note.picture">
-        <img src="./avatar-finn.png">
-      </ion-avatar>
-      <ion-label>
-        <p class="date">{{ note.dateShown }}</p>
-        <h2 class="header">{{ note.header }}</h2>
-        <p class="text">{{ note.text }}</p>
-      </ion-label>
-    </ion-item>
-  </ion-list>
+      <ion-list>
+        <ion-list-header>
+          Kuu
+        </ion-list-header>
 
+        <ion-item [routerLink]="['/add', note.id]" *ngFor="let note of notes">
+          <ion-avatar slot="start" *ngIf="note.picture">
+            <img src="./avatar-finn.png">
+          </ion-avatar>
+          <ion-label>
+            <p class="date">{{ note.dateShown }}</p>
+            <h2 class="header">{{ note.header }}</h2>
+            <p class="text">{{ note.text }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
 
-  <ion-fab horizontal="end" vertical="bottom" slot="fixed">
-    <ion-fab-button>
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-    <ion-fab-list side="top">
-      <div class="custom-fab">
-        <ion-button>Facebook</ion-button>
-        <ion-fab-button size="small" color="light">
-          <ion-icon name="logo-facebook"></ion-icon>
-        </ion-fab-button>
-      </div>
-      <div class="custom-fab">
-        <ion-button>Twitter</ion-button>
-        <ion-fab-button size="small" color="light">
-          <ion-icon name="logo-twitter"></ion-icon>
-        </ion-fab-button>
-      </div>
-      <div class="custom-fab">
-        <ion-button>Lisa uus</ion-button>
-        <ion-fab-button size="small" routerLink="/add" color="light">
-          <ion-icon name="logo-vimeo"></ion-icon>
-        </ion-fab-button>
-      </div>
-    </ion-fab-list>
-  </ion-fab>
+  </ion-refresher-content>
+</ion-refresher>  
+
+<ion-fab horizontal="end" vertical="bottom" slot="fixed">
+  <ion-fab-button>
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+  <ion-fab-list side="top">
+    <div class="custom-fab">
+      <ion-button>Facebook</ion-button>
+      <ion-fab-button size="small" color="light">
+        <ion-icon name="logo-facebook"></ion-icon>
+      </ion-fab-button>
+    </div>
+    <div class="custom-fab">
+      <ion-button>Twitter</ion-button>
+      <ion-fab-button size="small" color="light">
+        <ion-icon name="logo-twitter"></ion-icon>
+      </ion-fab-button>
+    </div>
+    <div class="custom-fab">
+      <ion-button>Lisa uus</ion-button>
+      <ion-fab-button size="small" routerLink="/add" color="light">
+        <ion-icon name="logo-vimeo"></ion-icon>
+      </ion-fab-button>
+    </div>
+  </ion-fab-list>
+</ion-fab>
+
 </ion-content>

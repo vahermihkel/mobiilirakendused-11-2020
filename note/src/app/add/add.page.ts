@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { DatabaseService } from '../database/database.service';
 
 @Component({
   selector: 'app-add',
@@ -15,7 +16,7 @@ export class AddPage implements OnInit {
   editNote: {header: string, text: string, date: Date};
   editNoteForm: FormGroup;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, private dbService: DatabaseService) { }
 
   ngOnInit() {
     this.getParams();
@@ -70,6 +71,7 @@ export class AddPage implements OnInit {
     
 
     localStorage.setItem("notes", JSON.stringify(notes));
+    this.dbService.synchronizeNotes(notes);
   }
 
 }

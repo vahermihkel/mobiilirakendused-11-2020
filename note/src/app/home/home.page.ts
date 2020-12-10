@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { DatabaseService } from '../database/database.service';
 
 @Component({
   selector: "app-home",
@@ -17,12 +18,21 @@ export class HomePage {
     "Saturday",
   ];
 
-  constructor() {}
+  constructor(private dbService: DatabaseService) {}
 
   ionViewDidEnter(): void {
-    this.notes = JSON.parse(localStorage.getItem("notes"));
+    this.notes = JSON.parse(localStorage.getItem("notes")) || [];
     this.getShownDate();
     this.sortItems();
+  }
+
+  doRefresh(event) {
+    this.dbService.getNotes().subscribe(response => {
+      this.notes = response;
+      console.log(response);
+      localStorage.setItem("notes", JSON.stringify(this.notes));
+      event.target.complete();
+    })
   }
 
   getShownDate() {

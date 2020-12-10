@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -15,7 +16,8 @@ import { Autosize } from '../shared/autosize.directive';
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    AddPageRoutingModule
+    AddPageRoutingModule,
+    HttpClientModule
   ],
   declarations: [AddPage, Autosize]
 })
