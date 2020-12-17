@@ -1,0 +1,19 @@
+{
+    "Mon": "E",
+    "Tue": "T",
+    "Wed": "K",
+    "Thu": "N",
+    "Fri": "R",
+    "Sat": "L",
+    "Sun": "P",
+    "home": {
+        "title": "Harjumused",
+        "habitName": "Harjumuse nimi",
+        "insertTitle": "Sisesta uus harjumus!",
+        "changeTitle": "Muuda harjumust"
+    },
+    "detail": {
+        "title": "Translation demo",
+        "text": "This is a simple demonstration app for ngx-translate"
+    }
+}

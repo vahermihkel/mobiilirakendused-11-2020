@@ -19,6 +19,7 @@ import { Autosize } from '../shared/autosize.directive';
     AddPageRoutingModule,
     HttpClientModule
   ],
-  declarations: [AddPage, Autosize]
+  declarations: [AddPage, Autosize],
+  providers: [Autosize]
 })
 export class AddPageModule {}

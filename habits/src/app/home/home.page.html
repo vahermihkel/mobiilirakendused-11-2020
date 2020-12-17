@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title> Habits </ion-title>
+    <ion-title> {{'home.title' | translate}} </ion-title>
     <ion-buttons slot="end">
       <ion-button *ngIf="showRemoveButton" (click)="onRemoveHabit()">
         <ion-icon name="trash-outline"></ion-icon>
@@ -13,14 +13,16 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  {{counter}}
+  <button (click)="useLanguage('en')">en</button>
+  <button (click)="useLanguage('ru')">ru</button>
+  <button (click)="useLanguage('ee')">ee</button>
 
   <ion-grid class="ion-no-padding">
     <ion-row class="first-row">
       <ion-col size="6">
       </ion-col>
       <ion-col *ngFor="let dayBefore of [4,3,2,1,0]">
-        <div>{{ date | previousDate:dayBefore | date:'E' }}</div>
+        <div>{{ date | previousDate:dayBefore | date:'E' | translate }}</div>
         <div>{{ date | previousDate:dayBefore | date:'dd' }}</div>
       </ion-col>
     </ion-row>

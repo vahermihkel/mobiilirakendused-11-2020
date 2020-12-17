@@ -32,6 +32,8 @@ export class HomePage {
       console.log(response);
       localStorage.setItem("notes", JSON.stringify(this.notes));
       event.target.complete();
+      this.getShownDate();
+      this.sortItems();
     })
   }
 

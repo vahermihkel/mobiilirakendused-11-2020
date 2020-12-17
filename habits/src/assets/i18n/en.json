@@ -1,0 +1,19 @@
+{
+    "Mon": "Mon",
+    "Tue": "Tue",
+    "Wed": "Wed",
+    "Thu": "Thu",
+    "Fri": "Fri",
+    "Sat": "Sat",
+    "Sun": "Sun",
+    "home": {
+        "title": "Habits",
+        "habitName": "Name of the habit",
+        "insertTitle": "Insert new habit!",
+        "changeTitle": "Change habit"
+    },
+    "detail": {
+        "title": "Translation demo",
+        "text": "This is a simple demonstration app for ngx-translate"
+    }
+}

@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DatabaseService } from '../database/database.service';
+import { Autosize } from '../shared/autosize.directive'; 
 
 @Component({
   selector: 'app-add',
@@ -16,11 +17,25 @@ export class AddPage implements OnInit {
   editNote: {header: string, text: string, date: Date};
   editNoteForm: FormGroup;
 
-  constructor(private route: ActivatedRoute, private dbService: DatabaseService) { }
+  constructor(
+    private route: ActivatedRoute, 
+    private dbService: DatabaseService,
+    private autosize: Autosize,
+    public element:ElementRef) { }
 
   ngOnInit() {
     this.getParams();
     this.initForm();
+    
+    this.autosize.adjust();
+    // const textArea = this.element.nativeElement.getElementsByTagName('textarea')[0];
+    // console.log(textArea);
+    // if (textArea) {
+    //   // textArea.style.overflow = 'hidden';
+      // textArea.style.height = 'auto';
+      // textArea.style.height = textArea.scrollHeight + 'px';
+    //   console.log(textArea.scrollHeight)
+    // }
   }
 
   getParams() {

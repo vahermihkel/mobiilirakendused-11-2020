@@ -3,6 +3,7 @@ import { Component } from "@angular/core";
 import { AlertController } from "@ionic/angular";
 import { Subject } from "rxjs";
 import { PreviousDatePipe } from "./previous-date.pipe";
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: "app-home",
@@ -19,7 +20,13 @@ export class HomePage {
 
   counter = 0;
 
-  constructor(public alertController: AlertController) {}
+  constructor(public alertController: AlertController,private translate: TranslateService) {
+    translate.setDefaultLang('en');
+  }
+
+  useLanguage(language: string) {
+    this.translate.use(language);
+}
 
   ionViewDidEnter() {
     this.date = new Date();
@@ -88,14 +95,14 @@ export class HomePage {
     let currentHabit;
     let title;
     if (this.habitId == null) {
-      title = "Insert new habit!";
+      title = this.translate.instant("home.insertTitle");
       currentHabit = {
         name: "",
         repeatTimes: "",
         timeframe: "",
       };
     } else {
-      title = "Change habit";
+      title = this.translate.instant("home.changeTitle");
       currentHabit = {
         name: this.habits[this.habitId].name,
         repeatTimes: this.habits[this.habitId].repeatTimes,
@@ -110,7 +117,7 @@ export class HomePage {
           name: "name",
           id: "code1",
           type: "text",
-          placeholder: "Name of habit",
+          placeholder: this.translate.instant("home.habitName"),
           cssClass: "nameInput alertInput",
           value: currentHabit.name,
         },
